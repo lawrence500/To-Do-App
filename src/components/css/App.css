@@ -100,7 +100,6 @@ body{
 
   overflow: auto;
 
-  border: 5px solid wheat;
   border-radius: 15px;
 
 }
@@ -123,6 +122,8 @@ body{
   color: white;
 }
 
+
+
 .to-display-list-box span{
   flex: 5;
   word-break: inherit;
@@ -133,6 +134,8 @@ body{
   padding: 10px;
 
 }
+
+
 
 .to-display-list-box button{
   flex: 2;
@@ -149,8 +152,45 @@ body{
 
 }
 
-.check-btn{
-  background-color: lightgreen;
+
+@media only screen and (max-width: 600px) {
+  .to-display-list-box li{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  
+    padding: 5px;
+    list-style: none;
+    font-size: 20px;
+    color: white;
+  }
+
+  .to-display-list-box span{
+    flex: 5;
+    word-break: inherit;
+  
+    font-weight: bold;
+    font-size: 18px;
+  
+    padding: 10px;
+  
+  }
+
+  
+.to-display-list-box button{
+  flex: 0.2;
+  padding: 10px;
+  border: none;
+
+  border-radius: 5px;
+  background-color: rgb(211, 13, 13);
+  color: white;
+
+  font-variant-numeric: tabular-nums;
+
+
+}
+
 }
 
 
