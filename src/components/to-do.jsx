@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/App.css";
 
 function ToDo() {
@@ -10,7 +10,10 @@ function ToDo() {
   );
   const [deleteTask, setDeleteTask] = useState(false);
 
-  localStorage.setItem(storageKey, JSON.stringify(tasks));
+
+  useEffect(() =>{
+    localStorage.setItem(storageKey, JSON.stringify(tasks));
+  }, [tasks])
 
   const handleTaskInput = (e) => {
     setTask(e.target.value);
@@ -46,9 +49,7 @@ function ToDo() {
   const handleCheck = (e, el, index) => {
     const parent = e.target.parentElement;
     const span = parent.children[0];
-    const i = span.children[0]
-    i.style.color = 'lightgreen'
-
+    e.target.style.color ='lightgreen'
 
     tasks.filter((element, i) => {
       if (i === index) {
@@ -88,26 +89,20 @@ function ToDo() {
             tasks.map((element, index) => (
               <li key={index}>
                 {element.style === null ? (
-                  <span>
-                    <i className="fa-regular fa-circle-check" style={{marginRight: '10px'}}></i>{element.task}
-                  </span>
+                  <span>{element.task}</span>
                 ) : (
-                  <span style={{ textDecoration: element.style }}>
-                    <i className="fa-regular fa-circle-check" style={{color: 'lightgreen', marginRight: '10px'}}></i>
-                    {element.task}
-                  </span>
+                  <span style={{ textDecoration: element.style }}>{element.task}</span>
                 )}
                 {deleteTask === false ? null : (
                   <button onClick={() => handleRemoveTask(index)}>
                     <i className="fa-solid fa-delete-left"></i>
                   </button>
                 )}
-                <button
-                  style={{ backgroundColor: "lightgreen" }}
-                  onClick={(e) => handleCheck(e, element, index)}
-                >
-                  Check
-                </button>
+                {element.style === null ? (
+                    <i className="fa-regular fa-circle-check" onClick={(e) => handleCheck(e, element, index)}  style={{marginRight: '10px'}}></i>
+                ) : (
+                    <i className="fa-regular fa-circle-check" style={{color: 'lightgreen', marginRight: '10px'}}></i>
+                )}
               </li>
             ))
           )}
