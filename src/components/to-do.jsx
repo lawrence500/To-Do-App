@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./css/App.css";
 
-function ToDo(props) {
-  const storageKey = props.localKey;
+function ToDo() {
+  const storageKey = "mytask";
 
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState(
@@ -17,9 +17,11 @@ function ToDo(props) {
   };
 
   const handleAddTask = () => {
-    if(task.length <= 2) return
+    if (task.length <= 2) return;
 
-    setTasks((t) => [...t, task]);
+    const makeTask = { task: task, style: null };
+
+    setTasks((t) => [...t, makeTask]);
     setTask("");
   };
 
@@ -41,6 +43,23 @@ function ToDo(props) {
     setTasks([]);
   };
 
+  const handleCheck = (e, el, index) => {
+    const parent = e.target.parentElement;
+    const span = parent.children[0];
+    const i = span.children[0]
+    i.style.color = 'lightgreen'
+
+
+    tasks.filter((element, i) => {
+      if (i === index) {
+        span.style.textDecoration = "line-through";
+
+        element.style = "line-through";
+        localStorage.setItem(storageKey, JSON.stringify(tasks));
+      }
+    });
+  };
+
   return (
     <div className="to-do-main-container">
       <div className="to-do-input-box">
@@ -57,28 +76,38 @@ function ToDo(props) {
       </div>
 
       <div className="delete-box">
-        <button onClick={toggleDeleteTask}>
-          toggle delete
-        </button>
-        <button  onClick={handleEmptyList}>
-          Clear all
-        </button>
+        <button onClick={toggleDeleteTask}>toggle delete</button>
+        <button onClick={handleEmptyList}>Clear all</button>
       </div>
 
       <div className="to-display-list-box">
-        <h1>{storageKey}</h1>
         <ul>
           {tasks.length <= 0 ? (
             <span style={{ textAlign: "center" }}>create a task</span>
           ) : (
             tasks.map((element, index) => (
               <li key={index}>
-                <span>{element}</span>
+                {element.style === null ? (
+                  <span>
+                    <i className="fa-regular fa-circle-check" style={{marginRight: '10px'}}></i>{element.task}
+                  </span>
+                ) : (
+                  <span style={{ textDecoration: element.style }}>
+                    <i className="fa-regular fa-circle-check" style={{color: 'lightgreen', marginRight: '10px'}}></i>
+                    {element.task}
+                  </span>
+                )}
                 {deleteTask === false ? null : (
                   <button onClick={() => handleRemoveTask(index)}>
-                    <i class="fa-solid fa-delete-left"></i>
+                    <i className="fa-solid fa-delete-left"></i>
                   </button>
                 )}
+                <button
+                  style={{ backgroundColor: "lightgreen" }}
+                  onClick={(e) => handleCheck(e, element, index)}
+                >
+                  Check
+                </button>
               </li>
             ))
           )}

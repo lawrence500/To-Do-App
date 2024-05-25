@@ -9,7 +9,6 @@ body{
   min-height: 100vh;
   min-height: 100svh;
   background-color: rgb(54, 54, 54);
-  overflow: hidden;
 }
 
 .to-do-main-container {
@@ -148,6 +147,10 @@ body{
   font-variant-numeric: tabular-nums;
 
 
+}
+
+.check-btn{
+  background-color: lightgreen;
 }
 
 
